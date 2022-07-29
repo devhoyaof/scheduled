@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration xmlns:xi="http://www.w3.org/2001/XInclude"
+               packages="com.thread.scheduled">
+
+    <Appenders>
+        <OmsFileAppender name="oms-log" directory="D:/logs/gm/oms/" prefix="KGM" rollingTerms="5" datePattern="'.'yyyyMMddHHmm" folderPattern="yyyyMMdd" server_num="001">
+            <PatternLayout pattern="%m%n"/>
+        </OmsFileAppender>
+
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %-5p [%t] %X{seqId} (%C{2}:%L) - %m%n"/>
+        </Console>
+
+        <RollingFile name="service-log" fileName="D:/logs/gm/service.log" filePattern="D:/logs/gm/service_%d{yyyy-MM-dd}.log" append="true">
+            <PatternLayout pattern="%d %-5p [%t] %X{seqId} (%C{2}:%L) - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+
+    </Appenders>
+
+
+    <Loggers>
+
+        <!-- OMS LOG -->
+        <Logger name="oms" additivity="false" level="info">
+            <AppenderRef ref="oms-log" />
+            <AppenderRef ref="console" />
+        </Logger>
+
+        <Root level="info" additivity="true">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="service-log"/>
+        </Root>
+    </Loggers>
+
+
+
+</Configuration>
